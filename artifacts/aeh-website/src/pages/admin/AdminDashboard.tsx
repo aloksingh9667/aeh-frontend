@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { useGetDashboardStats, useListApplications, useListContacts } from "@workspace/api-client-react";
 import { useAuth } from "@/lib/auth";
-import { GraduationCap, Users, Briefcase, PhoneCall, LogOut, BarChart2, ChevronRight, BookOpen, IndianRupee, Receipt, UserSquare, Clock } from "lucide-react";
+import { GraduationCap, Users, Briefcase, PhoneCall, LogOut, BarChart2, ChevronRight, BookOpen, IndianRupee, Receipt, UserSquare, Clock, Calendar, TrendingUp } from "lucide-react";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -131,12 +131,14 @@ export default function AdminDashboard() {
             ))}
           </div>
           <h2 className="text-base font-semibold text-foreground mb-3">Student & Academic Management</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { href: "/admin/students", label: "Manage Students", icon: UserSquare, color: "bg-green-50 text-green-700" },
               { href: "/admin/courses", label: "Manage Courses", icon: BookOpen, color: "bg-purple-50 text-purple-700" },
-              { href: "/admin/fee-structures", label: "Fee Structures", icon: IndianRupee, color: "bg-orange-50 text-orange-700" },
+              { href: "/admin/fee-structures", label: "Fee Structures & Fines", icon: IndianRupee, color: "bg-orange-50 text-orange-700" },
               { href: "/admin/payments", label: "Fee Payments", icon: Receipt, color: "bg-blue-50 text-blue-700" },
+              { href: "/admin/fee-tracker", label: "Fee Tracker (Unpaid)", icon: TrendingUp, color: "bg-red-50 text-red-700" },
+              { href: "/admin/events", label: "Events & News", icon: Calendar, color: "bg-teal-50 text-teal-700" },
             ].map(({ href, label, icon: Icon, color }) => (
               <Link key={href} href={href} className="flex items-center gap-4 bg-card border border-border rounded-xl p-5 hover:shadow-md hover:border-[hsl(219,60%,28%)] transition-all">
                 <div className={`h-10 w-10 ${color} rounded-xl flex items-center justify-center`}>
