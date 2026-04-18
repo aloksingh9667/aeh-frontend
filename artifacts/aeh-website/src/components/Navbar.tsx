@@ -16,7 +16,7 @@ const programs = [
 ];
 
 const aboutLinks = [
-  { label: "About Avviare", href: "/about" },
+  { label: "About", href: "/about" },
   { label: "Core Values", href: "/core-values" },
   { label: "Our Leadership", href: "/leadership" },
   { label: "Academic Council", href: "/academic-council" },
@@ -74,8 +74,8 @@ export function Navbar() {
             <a href="tel:+917772156789" className="flex items-center gap-1.5 hover:text-white transition-colors">
               <Phone className="h-3 w-3" /> +91 77721 56789
             </a>
-            <a href="mailto:info@avviare.edu.in" className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <Mail className="h-3 w-3" /> info@avviare.edu.in
+            <a href="mailto:info@STManagement.edu.in" className="flex items-center gap-1.5 hover:text-white transition-colors">
+              <Mail className="h-3 w-3" /> info@STManagement.edu.in
             </a>
           </div>
           <div className="flex items-center gap-4 text-white/50">
@@ -98,9 +98,9 @@ export function Navbar() {
                 <GraduationCap className="h-5 w-5 text-[hsl(219,40%,16%)]" />
               </div>
               <div className="leading-tight">
-                <span className="text-[hsl(43,96%,55%)] font-extrabold text-base hidden sm:block">Avviare</span>
-                <span className="text-white/80 text-xs font-medium hidden sm:block">Educational Hub</span>
-                <span className="text-[hsl(43,96%,55%)] font-extrabold text-base sm:hidden">AEH</span>
+                <span className="text-[hsl(43,96%,55%)] font-extrabold text-base hidden sm:block">S&T</span>
+                <span className="text-white/80 text-xs font-medium hidden sm:block">Management</span>
+                <span className="text-[hsl(43,96%,55%)] font-extrabold text-base sm:hidden">S&T</span>
               </div>
             </Link>
 
