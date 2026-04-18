@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import { Award, Users, Building, BookOpen, ChevronRight, Star, TrendingUp, Globe, Quote, Calendar, MapPin, Phone, GraduationCap, Trophy, Lightbulb, Heart } from "lucide-react";
+import { Award, Users, Building, BookOpen, ChevronRight, Star, TrendingUp, Globe, Quote, Calendar, MapPin, Phone, GraduationCap, Trophy, Lightbulb, Heart, Scale, FlaskConical, Tv2, Microscope, BookMarked } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
 
 const stats = [
   { label: "Years of Excellence", value: "12+", icon: Star },
@@ -12,15 +14,15 @@ const stats = [
 ];
 
 const programs = [
-  { name: "School of Management", courses: "BBA, MBA", desc: "Industry-focused curriculum with case studies and live projects", href: "/school-of-management", color: "from-blue-800/90 to-blue-950/95", icon: "📊", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=70" },
-  { name: "School of CS & IT", courses: "BCA, MCA", desc: "Cutting-edge technology education with AI and programming labs", href: "/school-of-cs-it", color: "from-indigo-800/90 to-indigo-950/95", icon: "💻", img: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=600&q=70" },
-  { name: "School of Commerce", courses: "B.Com, M.Com", desc: "Comprehensive commerce education with finance specializations", href: "/school-of-commerce", color: "from-teal-700/90 to-teal-950/95", icon: "📈", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=70" },
-  { name: "School of Humanities", courses: "BA, MA", desc: "Liberal arts education fostering critical thinking and creativity", href: "/school-of-humanities", color: "from-purple-800/90 to-purple-950/95", icon: "🎭", img: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&q=70" },
-  { name: "School of Communication", courses: "DJMC, BJMC, MJMC", desc: "State-of-the-art media studio with industry internships", href: "/school-of-communication", color: "from-rose-700/90 to-rose-950/95", icon: "📺", img: "https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?w=600&q=70" },
-  { name: "School of Law", courses: "BA LL.B, LL.M", desc: "Legal education with moot courts and clinical programs", href: "/school-of-law", color: "from-amber-700/90 to-amber-950/95", icon: "⚖️", img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=70" },
-  { name: "School of Pharmacy", courses: "B.Pharm, D.Pharm", desc: "Pharmaceutical sciences with modern lab infrastructure", href: "/school-of-pharmacy", color: "from-green-700/90 to-green-950/95", icon: "💊", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=70" },
-  { name: "School of Education", courses: "B.Ed, M.Ed", desc: "Training future educators with modern pedagogical approaches", href: "/school-of-education", color: "from-cyan-700/90 to-cyan-950/95", icon: "🎓", img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=70" },
-  { name: "School of Applied Science", courses: "B.Sc, M.Sc", desc: "Pure and applied sciences with research-oriented curriculum", href: "/school-of-applied-science", color: "from-orange-700/90 to-orange-950/95", icon: "🔬", img: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=600&q=70" },
+  { name: "School of Management", code: "SOM", courses: "BBA · MBA", desc: "Industry-focused curriculum with case studies, live projects and corporate exposure.", href: "/school-of-management", Icon: TrendingUp, img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80" },
+  { name: "School of CS & IT", code: "CSIT", courses: "BCA · MCA", desc: "Cutting-edge technology education with AI, cloud computing and programming labs.", href: "/school-of-cs-it", Icon: BookOpen, img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80" },
+  { name: "School of Commerce", code: "SOC", courses: "B.Com · M.Com", desc: "Comprehensive commerce education with taxation, auditing and finance specializations.", href: "/school-of-commerce", Icon: Building, img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80" },
+  { name: "School of Humanities", code: "SOH", courses: "BA · MA", desc: "Liberal arts education fostering critical thinking, creativity and social insight.", href: "/school-of-humanities", Icon: BookMarked, img: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=800&q=80" },
+  { name: "School of Communication", code: "DJMC", courses: "DJMC · BJMC · MJMC", desc: "State-of-the-art media studios with journalism, advertising and film production.", href: "/school-of-communication", Icon: Tv2, img: "https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?w=800&q=80" },
+  { name: "School of Law", code: "SOL", courses: "BA LL.B · LL.M", desc: "Legal education with moot courts, trial advocacy and clinical legal programs.", href: "/school-of-law", Icon: Scale, img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80" },
+  { name: "School of Pharmacy", code: "SOP", courses: "B.Pharm · D.Pharm", desc: "Pharmaceutical sciences with modern lab infrastructure and industry partnerships.", href: "/school-of-pharmacy", Icon: FlaskConical, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&q=80" },
+  { name: "School of Education", code: "SOE", courses: "B.Ed · M.Ed", desc: "Training future educators with modern pedagogical approaches and teaching practice.", href: "/school-of-education", Icon: GraduationCap, img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80" },
+  { name: "School of Applied Science", code: "SAS", courses: "B.Sc · M.Sc", desc: "Pure and applied sciences with research-oriented curriculum and well-equipped labs.", href: "/school-of-applied-science", Icon: Microscope, img: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&q=80" },
 ];
 
 const newsItems = [
@@ -102,15 +104,38 @@ const achievements = [
   { icon: GraduationCap, label: "PhDs & Doctorates", value: "25+", color: "bg-purple-500" },
 ];
 
-const upcomingEvents = [
-  { title: "Admission Open Day 2026-27", date: "May 5, 2026", type: "Admission", location: "Main Campus, Bilaspur" },
-  { title: "Campus Recruitment Drive — TCS & Infosys", date: "May 12, 2026", type: "Placement", location: "Placement Cell" },
-  { title: "Annual Sports Week", date: "May 20-25, 2026", type: "Sports", location: "Sports Ground" },
-  { title: "National Law Seminar 2026", date: "June 2, 2026", type: "Academic", location: "Auditorium" },
-];
+const CAT_COLORS: Record<string, string> = {
+  Admission: "bg-green-100 text-green-700",
+  Placement: "bg-blue-100 text-blue-700",
+  Academic: "bg-purple-100 text-purple-700",
+  Sports: "bg-orange-100 text-orange-700",
+  Cultural: "bg-pink-100 text-pink-700",
+  Infrastructure: "bg-cyan-100 text-cyan-700",
+  Achievement: "bg-amber-100 text-amber-700",
+};
+
+interface ApiEvent {
+  id: number;
+  title: string;
+  category: string;
+  shortDescription?: string;
+  eventDate: string;
+  location?: string;
+  imageUrl?: string;
+  isFeatured: boolean;
+}
 
 export default function Home() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [liveEvents, setLiveEvents] = useState<ApiEvent[]>([]);
+  const [eventsLoading, setEventsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/events?limit=6`)
+      .then(r => r.ok ? r.json() : { data: [] })
+      .then(d => { setLiveEvents(d.data || []); setEventsLoading(false); })
+      .catch(() => setEventsLoading(false));
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -205,45 +230,58 @@ export default function Home() {
       </section>
 
       {/* Programs — All 9 Schools */}
-      <section className="py-16 px-4 bg-background">
+      <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <span className="inline-block bg-[hsl(219,40%,16%)]/10 text-[hsl(219,40%,16%)] text-sm font-semibold px-4 py-1.5 rounded-full mb-3">9 Schools · 25+ Programs</span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Schools & Programs</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Explore our diverse range of undergraduate and postgraduate programs designed for the modern world</p>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Explore our diverse undergraduate and postgraduate programs, each designed with industry insight and academic rigor</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {programs.map(program => (
-              <Link key={program.name} href={program.href} className="group block">
-                <div className="rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 h-full border border-white/5">
-                  {/* Image with gradient overlay */}
-                  <div className="relative h-44 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {programs.map(({ name, code, courses, desc, href, Icon, img }) => (
+              <Link key={name} href={href} className="group block">
+                <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 border border-gray-100 h-full flex flex-col">
+                  {/* Image with consistent brand overlay */}
+                  <div className="relative h-48 overflow-hidden">
                     <img
-                      src={program.img}
-                      alt={program.name}
+                      src={img}
+                      alt={name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className={`absolute inset-0 bg-gradient-to-br ${program.color}`} />
-                    <div className="absolute inset-0 flex flex-col justify-end p-5">
-                      <span className="text-3xl mb-2 drop-shadow">{program.icon}</span>
-                      <h3 className="text-lg font-bold text-white leading-tight drop-shadow">{program.name}</h3>
-                      <p className="text-white/80 text-sm font-medium mt-0.5">{program.courses}</p>
+                    {/* Consistent brand dark overlay — no per-school colors */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[hsl(219,40%,10%)]/90 via-[hsl(219,40%,16%)]/30 to-transparent" />
+                    {/* Top badge */}
+                    <div className="absolute top-3 right-3">
+                      <span className="bg-[hsl(43,96%,55%)] text-[hsl(219,40%,10%)] text-xs font-bold px-2.5 py-1 rounded-lg tracking-wide">{code}</span>
+                    </div>
+                    {/* Bottom text */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="bg-white/20 backdrop-blur-sm rounded-lg p-1.5">
+                          <Icon className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-white/80 text-xs font-medium">{courses}</span>
+                      </div>
+                      <h3 className="text-base font-bold text-white leading-tight">{name}</h3>
                     </div>
                   </div>
                   {/* Card body */}
-                  <div className="p-5 bg-white border-t-0">
-                    <p className="text-gray-500 text-sm leading-relaxed">{program.desc}</p>
-                    <div className="flex items-center gap-1 text-[hsl(219,60%,28%)] font-semibold text-sm mt-4 group-hover:gap-2.5 transition-all">
-                      Explore Program <ChevronRight className="h-4 w-4" />
+                  <div className="p-5 flex-1 flex flex-col">
+                    <p className="text-gray-500 text-sm leading-relaxed flex-1">{desc}</p>
+                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+                      <div className="flex items-center gap-1 text-[hsl(219,60%,28%)] font-semibold text-sm group-hover:gap-2 transition-all">
+                        Explore Program <ChevronRight className="h-4 w-4" />
+                      </div>
+                      <div className="w-1 h-1 rounded-full bg-[hsl(43,96%,55%)]" />
                     </div>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-          <div className="text-center mt-8">
-            <Link href="/apply" className="inline-flex items-center gap-2 bg-[hsl(219,40%,16%)] text-white font-semibold px-8 py-3 rounded-lg hover:bg-[hsl(219,40%,24%)] transition-colors">
-              Apply for Admission <ChevronRight className="h-4 w-4" />
+          <div className="text-center mt-10">
+            <Link href="/apply" className="inline-flex items-center gap-2 bg-[hsl(219,40%,16%)] text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-[hsl(219,40%,24%)] transition-colors shadow-lg">
+              Apply for Admission 2026-27 <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -404,7 +442,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Upcoming Events */}
+      {/* Upcoming Events — Dynamic from Admin */}
       <section className="py-16 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
@@ -413,29 +451,42 @@ export default function Home() {
               <h2 className="text-3xl font-bold text-foreground">Upcoming Events</h2>
             </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            {upcomingEvents.map(ev => {
-              const typeColors: Record<string, string> = {
-                Admission: "bg-green-100 text-green-700",
-                Placement: "bg-blue-100 text-blue-700",
-                Sports: "bg-orange-100 text-orange-700",
-                Academic: "bg-purple-100 text-purple-700",
-              };
-              return (
-                <div key={ev.title} className="flex items-center gap-5 bg-card border border-border rounded-xl p-5 hover:border-[hsl(219,40%,40%)] hover:shadow-md transition-all">
-                  <div className="bg-[hsl(219,40%,16%)] text-white rounded-xl p-4 text-center shrink-0 min-w-[64px]">
-                    <div className="text-xl font-bold leading-none">{ev.date.split(" ")[1]?.replace(",","")}</div>
-                    <div className="text-xs text-white/70 mt-1">{ev.date.split(" ")[0]}</div>
-                  </div>
-                  <div className="flex-1">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${typeColors[ev.type] || "bg-gray-100 text-gray-600"}`}>{ev.type}</span>
-                    <h3 className="font-semibold text-foreground mt-1 text-sm">{ev.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1"><MapPin className="h-3 w-3" />{ev.location}</p>
+          {eventsLoading ? (
+            <div className="grid md:grid-cols-2 gap-4">
+              {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-gray-100 rounded-xl animate-pulse" />)}
+            </div>
+          ) : liveEvents.length === 0 ? (
+            <div className="text-center py-12 text-gray-400">
+              <Calendar className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+              <p>No upcoming events at the moment. Check back soon!</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-4">
+              {liveEvents.slice(0, 6).map(ev => (
+                <div key={ev.id} className="flex gap-5 bg-card border border-border rounded-xl p-5 hover:border-[hsl(219,40%,40%)] hover:shadow-md transition-all group">
+                  {ev.imageUrl ? (
+                    <div className="relative shrink-0 w-20 h-20 rounded-xl overflow-hidden">
+                      <img src={ev.imageUrl} alt={ev.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                      <div className="absolute inset-0 bg-[hsl(219,40%,16%)]/30" />
+                    </div>
+                  ) : (
+                    <div className="bg-[hsl(219,40%,16%)] text-white rounded-xl p-4 text-center shrink-0 min-w-[64px]">
+                      <div className="text-base font-bold leading-none">{ev.eventDate.split(" ")[1]?.replace(",", "") || "—"}</div>
+                      <div className="text-xs text-white/70 mt-1">{ev.eventDate.split(" ")[0]}</div>
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${CAT_COLORS[ev.category] || "bg-gray-100 text-gray-600"}`}>{ev.category}</span>
+                    <h3 className="font-semibold text-foreground mt-1.5 text-sm leading-snug line-clamp-2">{ev.title}</h3>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1.5">
+                      <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{ev.eventDate}</span>
+                      {ev.location && <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{ev.location}</span>}
+                    </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
