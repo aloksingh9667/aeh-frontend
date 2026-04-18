@@ -1,0 +1,13 @@
+[build]
+  command = "pnpm install && pnpm --filter @workspace/aeh-website run build"
+  publish = "artifacts/aeh-website/dist/public"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NODE_ENV = "production"
+  PNPM_VERSION = "10.26.1"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
