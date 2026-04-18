@@ -1,2 +1,2 @@
-name = "aeh"
+name = "aeh-frontend"
 pages_build_output_dir = "artifacts/aeh-website/dist/public"
