@@ -1,0 +1,9 @@
+{
+  "name": "aeh-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @workspace/aeh-website run dev",
+    "build": "pnpm --filter @workspace/aeh-website run build"
+  }
+}
