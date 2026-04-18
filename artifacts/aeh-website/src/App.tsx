@@ -42,6 +42,8 @@ import AdminCourses from "@/pages/admin/AdminCourses";
 import AdminFeeStructures from "@/pages/admin/AdminFeeStructures";
 import AdminStudents from "@/pages/admin/AdminStudents";
 import AdminPayments from "@/pages/admin/AdminPayments";
+import AdminEvents from "@/pages/admin/AdminEvents";
+import AdminFeeTracker from "@/pages/admin/AdminFeeTracker";
 
 import StudentLogin from "@/pages/student/StudentLogin";
 import StudentRegister from "@/pages/student/StudentRegister";
@@ -125,6 +127,8 @@ function Router() {
       <Route path="/admin/fee-structures" component={() => <ProtectedRoute component={AdminFeeStructures} />} />
       <Route path="/admin/students" component={() => <ProtectedRoute component={AdminStudents} />} />
       <Route path="/admin/payments" component={() => <ProtectedRoute component={AdminPayments} />} />
+      <Route path="/admin/events" component={() => <ProtectedRoute component={AdminEvents} />} />
+      <Route path="/admin/fee-tracker" component={() => <ProtectedRoute component={AdminFeeTracker} />} />
 
       <Route component={NotFound} />
     </Switch>
