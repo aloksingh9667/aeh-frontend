@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "deploy": "wrangler pages deploy dist --project-name=aeh-frontend",
+    "deploy": "wrangler pages deploy dist",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc --noEmit"
   },
