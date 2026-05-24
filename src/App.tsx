@@ -68,7 +68,7 @@ function PreviewBanner() {
   );
 }
 
-setBaseUrl(import.meta.env.VITE_API_URL || null);
+setBaseUrl("/api");
 setAuthTokenGetter(() => localStorage.getItem("aeh_admin_token"));
 
 const queryClient = new QueryClient({

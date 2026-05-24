@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { GraduationCap, Lock, User, ShieldCheck, KeyRound, ArrowLeft, CheckCircle } from "lucide-react";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 
 type Step = "secret" | "otp" | "details" | "done";
 

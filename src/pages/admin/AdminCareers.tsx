@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { GraduationCap, LogOut, ArrowLeft, Search, ChevronLeft, ChevronRight, Mail, Phone, ExternalLink, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 
 export default function AdminCareers() {
   const { user, logout, token } = useAuth();

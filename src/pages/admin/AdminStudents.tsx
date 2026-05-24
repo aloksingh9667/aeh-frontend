@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Users, Trash2, Search, ChevronLeft, CheckCircle, XCircle, User, BookOpen, Clock, UserCheck, Calendar } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 
 interface Student {
   id: number;

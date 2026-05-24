@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { GraduationCap, LogOut, ArrowLeft, Search, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 
 const statusColors: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700",

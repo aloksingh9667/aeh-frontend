@@ -4,7 +4,7 @@ import { GraduationCap, Eye, EyeOff, CheckCircle, Clock } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 
 const COURSES = [
   { name: "Bachelor of Business Administration", code: "BBA" },

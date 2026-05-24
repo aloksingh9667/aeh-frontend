@@ -5,7 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useSiteConfig, isFlagEnabled, getTemplate } from "@/lib/siteConfig";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 
 const stats = [
   { label: "Years of Excellence", value: "12+", icon: Star },

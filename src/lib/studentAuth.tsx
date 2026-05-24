@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { StudentAuthContext, type StudentUser } from "@/hooks/useStudentAuth";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 const TOKEN_KEY = "aeh_student_token";
 
 export function StudentAuthProvider({ children }: { children: React.ReactNode }) {

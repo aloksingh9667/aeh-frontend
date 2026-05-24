@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Plus, Pencil, Trash2, IndianRupee, CheckCircle, XCircle, ChevronLeft, AlertCircle, Clock, Zap, Calculator } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 
 interface FeeStructure {
   id: number;
