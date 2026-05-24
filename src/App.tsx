@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { StudentAuthProvider } from "@/lib/studentAuth";
-import { setBaseUrl, setAuthTokenGetter } from "@workspace/api-client-react";
+import { setBaseUrl, setAuthTokenGetter } from "@/lib/api-client/index";
 import { useEffect } from "react";
 import NotFound from "@/pages/not-found";
 
@@ -52,6 +52,21 @@ import StudentFees from "@/pages/student/StudentFees";
 import StudentReceipts from "@/pages/student/StudentReceipts";
 import StudentForgotPassword from "@/pages/student/StudentForgotPassword";
 import AdminCreate from "@/pages/admin/AdminCreate";
+import AdminCustomize from "@/pages/admin/AdminCustomize";
+import { useApplyBranding, isPreviewMode } from "@/lib/siteConfig";
+import { AdminLayout } from "@/components/AdminLayout";
+
+function PreviewBanner() {
+  if (typeof window === "undefined" || !isPreviewMode()) return null;
+  return (
+    <div className="fixed top-0 inset-x-0 z-[100] bg-amber-400 text-amber-950 text-center py-1.5 px-4 text-xs font-bold shadow-md">
+      <span className="inline-flex items-center gap-2">
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-900 animate-pulse" />
+        PREVIEW MODE — These changes have NOT been published. Close this tab and click "Save Changes" in the admin panel to apply.
+      </span>
+    </div>
+  );
+}
 
 setBaseUrl(import.meta.env.VITE_API_URL || null);
 setAuthTokenGetter(() => localStorage.getItem("aeh_admin_token"));
@@ -62,7 +77,7 @@ const queryClient = new QueryClient({
   },
 });
 
-function ProtectedRoute({ component: Component }: { component: React.ComponentType }) {
+function ProtectedRoute({ component: Component, withLayout = true }: { component: React.ComponentType; withLayout?: boolean }) {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
 
@@ -78,6 +93,13 @@ function ProtectedRoute({ component: Component }: { component: React.ComponentTy
 
   if (!user) return null;
 
+  if (withLayout) {
+    return (
+      <AdminLayout>
+        <Component />
+      </AdminLayout>
+    );
+  }
   return <Component />;
 }
 
@@ -129,10 +151,16 @@ function Router() {
       <Route path="/admin/payments" component={() => <ProtectedRoute component={AdminPayments} />} />
       <Route path="/admin/events" component={() => <ProtectedRoute component={AdminEvents} />} />
       <Route path="/admin/fee-tracker" component={() => <ProtectedRoute component={AdminFeeTracker} />} />
+      <Route path="/admin/customize" component={() => <ProtectedRoute component={AdminCustomize} />} />
 
       <Route component={NotFound} />
     </Switch>
   );
+}
+
+function BrandingApplier() {
+  useApplyBranding();
+  return null;
 }
 
 function App() {
@@ -142,6 +170,8 @@ function App() {
         <AuthProvider>
           <StudentAuthProvider>
             <TooltipProvider>
+              <BrandingApplier />
+              <PreviewBanner />
               <Router />
               <Toaster />
             </TooltipProvider>

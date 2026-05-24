@@ -1,2 +1,10 @@
-name = "aeh-frontend"
-pages_build_output_dir = "artifacts/aeh-website/dist/public"
+name = "aeh-website"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "aeh-website"
+
+# Cloudflare Pages config
+# Build command: npm run build
+# Build output directory: dist
+# Root directory: (leave empty)

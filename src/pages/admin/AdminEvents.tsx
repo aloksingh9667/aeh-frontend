@@ -121,14 +121,14 @@ export default function AdminEvents() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-[hsl(219,40%,16%)] text-white px-6 py-4 flex items-center justify-between">
+      <div className="bg-brand-primary text-white px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/admin" className="text-white/70 hover:text-white"><ChevronLeft className="h-5 w-5" /></Link>
-          <Calendar className="h-5 w-5 text-[hsl(43,96%,55%)]" />
+          <Calendar className="h-5 w-5 text-brand-accent" />
           <h1 className="text-lg font-bold">Manage Events</h1>
           <span className="text-white/50 text-sm">({events.length} total)</span>
         </div>
-        <button onClick={openCreate} className="flex items-center gap-2 bg-[hsl(43,96%,55%)] text-[hsl(219,40%,16%)] font-bold px-4 py-2 rounded-lg text-sm hover:bg-[hsl(43,96%,45%)] transition-colors">
+        <button onClick={openCreate} className="flex items-center gap-2 bg-brand-accent text-brand-primary font-bold px-4 py-2 rounded-lg text-sm hover:opacity-90 transition-colors">
           <Plus className="h-4 w-4" /> Add Event
         </button>
       </div>
@@ -152,42 +152,42 @@ export default function AdminEvents() {
               <form onSubmit={handleSave} className="px-6 py-5 space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Event Title *</label>
-                  <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g., Admission Open Day 2026-27" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)]" />
+                  <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g., Admission Open Day 2026-27" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
-                    <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)]">
+                    <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary">
                       {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                    <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} placeholder="e.g., Main Campus, Bilaspur" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)]" />
+                    <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} placeholder="e.g., Main Campus Auditorium" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Event Date *</label>
-                    <input required value={form.eventDate} onChange={e => setForm(f => ({ ...f, eventDate: e.target.value }))} placeholder="e.g., 5 May 2026" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)]" />
+                    <input required value={form.eventDate} onChange={e => setForm(f => ({ ...f, eventDate: e.target.value }))} placeholder="e.g., 5 May 2026" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">End Date (optional)</label>
-                    <input value={form.eventDateEnd} onChange={e => setForm(f => ({ ...f, eventDateEnd: e.target.value }))} placeholder="e.g., 10 May 2026 (for multi-day)" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)]" />
+                    <input value={form.eventDateEnd} onChange={e => setForm(f => ({ ...f, eventDateEnd: e.target.value }))} placeholder="e.g., 10 May 2026 (for multi-day)" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
-                  <textarea rows={2} value={form.shortDescription} onChange={e => setForm(f => ({ ...f, shortDescription: e.target.value }))} placeholder="Brief summary shown on homepage (1-2 lines)" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)] resize-none" />
+                  <textarea rows={2} value={form.shortDescription} onChange={e => setForm(f => ({ ...f, shortDescription: e.target.value }))} placeholder="Brief summary shown on homepage (1-2 lines)" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary resize-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Full Description</label>
-                  <textarea rows={4} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Detailed description for the event page" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)] resize-none" />
+                  <textarea rows={4} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Detailed description for the event page" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary resize-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
                   <div className="flex gap-2">
-                    <input value={form.imageUrl} onChange={e => setForm(f => ({ ...f, imageUrl: e.target.value }))} placeholder="https://images.unsplash.com/... or any image URL" className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)]" />
+                    <input value={form.imageUrl} onChange={e => setForm(f => ({ ...f, imageUrl: e.target.value }))} placeholder="https://images.unsplash.com/... or any image URL" className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary" />
                     {form.imageUrl && (
                       <img src={form.imageUrl} alt="preview" className="h-10 w-16 rounded-lg object-cover border border-gray-200" onError={e => (e.currentTarget.style.display = "none")} />
                     )}
@@ -205,7 +205,7 @@ export default function AdminEvents() {
                   </label>
                 </div>
                 <div className="flex gap-3 pt-2 border-t border-gray-200">
-                  <button type="submit" disabled={saving} className="flex-1 bg-[hsl(219,40%,16%)] text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-[hsl(219,40%,24%)] disabled:opacity-60 transition-colors">
+                  <button type="submit" disabled={saving} className="flex-1 bg-brand-primary text-white py-2.5 rounded-lg font-semibold text-sm hover:opacity-80 disabled:opacity-60 transition-colors">
                     {saving ? "Saving..." : editing ? "Update Event" : "Create Event"}
                   </button>
                   <button type="button" onClick={() => setShowForm(false)} className="px-6 border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50">
@@ -226,7 +226,7 @@ export default function AdminEvents() {
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
             <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500 mb-4">No events yet. Add your first event!</p>
-            <button onClick={openCreate} className="bg-[hsl(219,40%,16%)] text-white px-6 py-2 rounded-lg text-sm font-semibold">
+            <button onClick={openCreate} className="bg-brand-primary text-white px-6 py-2 rounded-lg text-sm font-semibold">
               <Plus className="h-4 w-4 inline mr-2" />Add Event
             </button>
           </div>
@@ -239,7 +239,7 @@ export default function AdminEvents() {
                     <img src={ev.imageUrl} alt={ev.title} className="w-full h-full object-cover" onError={e => (e.currentTarget.style.display = "none")} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                      {ev.isFeatured && <span className="bg-[hsl(43,96%,55%)] text-[hsl(219,40%,16%)] text-xs font-bold px-2 py-0.5 rounded-full">★ Featured</span>}
+                      {ev.isFeatured && <span className="bg-brand-accent text-brand-primary text-xs font-bold px-2 py-0.5 rounded-full">★ Featured</span>}
                       {!ev.isPublished && <span className="bg-gray-700 text-white text-xs font-bold px-2 py-0.5 rounded-full">Hidden</span>}
                     </div>
                   </div>
@@ -257,7 +257,7 @@ export default function AdminEvents() {
                   </div>
                   {ev.shortDescription && <p className="text-xs text-gray-500 line-clamp-2 mb-3">{ev.shortDescription}</p>}
                   <div className="flex items-center gap-2 pt-2 border-t border-gray-100">
-                    <button onClick={() => openEdit(ev)} className="flex items-center gap-1 text-xs text-[hsl(219,40%,40%)] hover:text-[hsl(219,40%,16%)] font-medium px-2 py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
+                    <button onClick={() => openEdit(ev)} className="flex items-center gap-1 text-xs text-brand-primary hover:text-brand-primary font-medium px-2 py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
                       <Pencil className="h-3.5 w-3.5" /> Edit
                     </button>
                     <button onClick={() => toggleFeatured(ev)} className="flex items-center gap-1 text-xs text-amber-600 hover:text-amber-800 font-medium px-2 py-1.5 rounded-lg hover:bg-amber-50 transition-colors">

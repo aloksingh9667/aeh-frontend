@@ -1,7 +1,7 @@
 import { Link } from "wouter";
-import { useGetDashboardStats, useListApplications, useListContacts } from "@workspace/api-client-react";
+import { useGetDashboardStats, useListApplications, useListContacts } from "@/lib/api-client/index";
 import { useAuth } from "@/lib/auth";
-import { GraduationCap, Users, Briefcase, PhoneCall, LogOut, BarChart2, ChevronRight, BookOpen, IndianRupee, Receipt, UserSquare, Clock, Calendar, TrendingUp } from "lucide-react";
+import { GraduationCap, Users, Briefcase, PhoneCall, LogOut, BarChart2, ChevronRight, BookOpen, IndianRupee, Receipt, UserSquare, Clock, Calendar, TrendingUp, Sparkles } from "lucide-react";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -11,9 +11,9 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-[hsl(219,40%,16%)] text-white px-6 py-4 flex items-center justify-between">
+      <header className="bg-brand-primary text-white px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <GraduationCap className="h-7 w-7 text-[hsl(43,96%,55%)]" />
+          <GraduationCap className="h-7 w-7 text-brand-accent" />
           <span className="font-bold text-lg">AEH Admin Portal</span>
         </div>
         <div className="flex items-center gap-4">
@@ -69,7 +69,7 @@ export default function AdminDashboard() {
           <div className="bg-card border border-border rounded-xl overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-border">
               <h2 className="font-semibold text-foreground">Recent Applications</h2>
-              <Link href="/admin/applications" className="text-sm text-[hsl(219,60%,28%)] flex items-center gap-1 hover:gap-2 transition-all">
+              <Link href="/admin/applications" className="text-sm text-brand-primary flex items-center gap-1 hover:gap-2 transition-all">
                 View All <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
@@ -94,7 +94,7 @@ export default function AdminDashboard() {
           <div className="bg-card border border-border rounded-xl overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-border">
               <h2 className="font-semibold text-foreground">Recent Inquiries</h2>
-              <Link href="/admin/contacts" className="text-sm text-[hsl(219,60%,28%)] flex items-center gap-1 hover:gap-2 transition-all">
+              <Link href="/admin/contacts" className="text-sm text-brand-primary flex items-center gap-1 hover:gap-2 transition-all">
                 View All <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
@@ -121,9 +121,9 @@ export default function AdminDashboard() {
               { href: "/admin/contacts", label: "Manage Inquiries", icon: PhoneCall },
               { href: "/admin/careers", label: "Career Applications", icon: Briefcase },
             ].map(({ href, label, icon: Icon }) => (
-              <Link key={href} href={href} className="flex items-center gap-4 bg-card border border-border rounded-xl p-5 hover:shadow-md hover:border-[hsl(219,60%,28%)] transition-all">
-                <div className="h-10 w-10 bg-[hsl(219,60%,28%)]/10 rounded-xl flex items-center justify-center">
-                  <Icon className="h-5 w-5 text-[hsl(219,60%,28%)]" />
+              <Link key={href} href={href} className="flex items-center gap-4 bg-card border border-border rounded-xl p-5 hover:shadow-md hover:border-brand-primary transition-all">
+                <div className="h-10 w-10 bg-brand-primary/10 rounded-xl flex items-center justify-center">
+                  <Icon className="h-5 w-5 text-brand-primary" />
                 </div>
                 <span className="font-medium text-foreground">{label}</span>
                 <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
@@ -139,8 +139,9 @@ export default function AdminDashboard() {
               { href: "/admin/payments", label: "Fee Payments", icon: Receipt, color: "bg-blue-50 text-blue-700" },
               { href: "/admin/fee-tracker", label: "Fee Tracker (Unpaid)", icon: TrendingUp, color: "bg-red-50 text-red-700" },
               { href: "/admin/events", label: "Events & News", icon: Calendar, color: "bg-teal-50 text-teal-700" },
+              { href: "/admin/customize", label: "Customize Site (AI)", icon: Sparkles, color: "bg-amber-50 text-amber-700" },
             ].map(({ href, label, icon: Icon, color }) => (
-              <Link key={href} href={href} className="flex items-center gap-4 bg-card border border-border rounded-xl p-5 hover:shadow-md hover:border-[hsl(219,60%,28%)] transition-all">
+              <Link key={href} href={href} className="flex items-center gap-4 bg-card border border-border rounded-xl p-5 hover:shadow-md hover:border-brand-primary transition-all">
                 <div className={`h-10 w-10 ${color} rounded-xl flex items-center justify-center`}>
                   <Icon className="h-5 w-5" />
                 </div>

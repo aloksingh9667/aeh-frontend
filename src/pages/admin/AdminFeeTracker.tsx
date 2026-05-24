@@ -15,7 +15,21 @@ interface Student {
   enrollmentYear: string;
   semester: string | null;
   admissionDate: string | null;
+  batchStartMonth: string | null;
   status: string;
+}
+
+function getBatchStart(s: Student): Date {
+  if (s.batchStartMonth) {
+    // Expected format: "YYYY-MM" or "YYYY-MM-DD"
+    const parts = s.batchStartMonth.split("-").map(p => parseInt(p));
+    if (parts.length >= 2 && parts[0] && parts[1]) {
+      return new Date(parts[0], parts[1] - 1, parts[2] || 1);
+    }
+  }
+  if (s.admissionDate) return new Date(s.admissionDate);
+  if (s.enrollmentYear) return new Date(parseInt(s.enrollmentYear), 6, 1); // July default
+  return new Date();
 }
 
 interface Payment {
@@ -45,9 +59,8 @@ interface FeeStructure {
   fineType: string;
 }
 
-function getPeriodLabel(plan: string, admDate: string | null, periodNumber: number): string {
+function getPeriodLabel(plan: string, start: Date, periodNumber: number): string {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const start = admDate ? new Date(admDate) : new Date();
   const monthsPerPeriod = plan === "quarterly" ? 3 : plan === "semester" ? 6 : 12;
   const periodStart = new Date(start);
   periodStart.setMonth(periodStart.getMonth() + (periodNumber - 1) * monthsPerPeriod);
@@ -56,12 +69,11 @@ function getPeriodLabel(plan: string, admDate: string | null, periodNumber: numb
   return `${months[periodStart.getMonth()]} ${periodStart.getFullYear()}–${months[periodEnd.getMonth()]} ${periodEnd.getFullYear()}`;
 }
 
-function getCurrentPeriod(plan: string, admDate: string | null): number {
-  const start = admDate ? new Date(admDate) : new Date();
+function getCurrentPeriod(plan: string, start: Date): number {
   const now = new Date();
   const monthsElapsed = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
   const monthsPerPeriod = plan === "quarterly" ? 3 : plan === "semester" ? 6 : 12;
-  return Math.floor(monthsElapsed / monthsPerPeriod) + 1;
+  return Math.max(1, Math.floor(monthsElapsed / monthsPerPeriod) + 1);
 }
 
 export default function AdminFeeTracker() {
@@ -98,7 +110,10 @@ export default function AdminFeeTracker() {
   const getFeeStructure = (courseCode: string, plan: string) =>
     feeStructures.find(f => f.courseCode === courseCode && f.paymentPlan === plan);
 
-  const getCurrentPeriodLabel = (s: Student) => getPeriodLabel(planFilter, s.admissionDate, getCurrentPeriod(planFilter, s.admissionDate));
+  const getCurrentPeriodLabel = (s: Student) => {
+    const start = getBatchStart(s);
+    return getPeriodLabel(planFilter, start, getCurrentPeriod(planFilter, start));
+  };
 
   const hasPaidCurrentPeriod = (s: Student) => {
     const currentLabel = getCurrentPeriodLabel(s);
@@ -122,7 +137,7 @@ export default function AdminFeeTracker() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="bg-[hsl(219,40%,16%)] text-white px-6 py-4"><h1 className="text-lg font-bold">Fee Tracker</h1></div>
+        <div className="bg-brand-primary text-white px-6 py-4"><h1 className="text-lg font-bold">Fee Tracker</h1></div>
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="space-y-3">{[1, 2, 3].map(i => <div key={i} className="h-16 bg-white rounded-xl animate-pulse" />)}</div>
         </div>
@@ -132,10 +147,10 @@ export default function AdminFeeTracker() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-[hsl(219,40%,16%)] text-white px-6 py-4">
+      <div className="bg-brand-primary text-white px-6 py-4">
         <div className="flex items-center gap-3">
           <Link href="/admin" className="text-white/70 hover:text-white"><ChevronLeft className="h-5 w-5" /></Link>
-          <IndianRupee className="h-5 w-5 text-[hsl(43,96%,55%)]" />
+          <IndianRupee className="h-5 w-5 text-brand-accent" />
           <h1 className="text-lg font-bold">Fee Payment Tracker</h1>
         </div>
       </div>
@@ -168,7 +183,7 @@ export default function AdminFeeTracker() {
               <button
                 key={plan}
                 onClick={() => setPlanFilter(plan)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${planFilter === plan ? "bg-[hsl(219,40%,16%)] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${planFilter === plan ? "bg-brand-primary text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
               >
                 {plan.charAt(0).toUpperCase() + plan.slice(1)}
               </button>
@@ -176,12 +191,12 @@ export default function AdminFeeTracker() {
           </div>
           <div className="flex-1 relative ml-auto max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search student..." className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(219,40%,40%)]" />
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search student..." className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary" />
           </div>
         </div>
 
         <p className="text-sm text-gray-500 mb-4">
-          Showing fee status for: <strong>{planLabel[planFilter]}</strong> — Current period shown per student based on their admission date.
+          Showing fee status for: <strong>{planLabel[planFilter]}</strong> — Current period is calculated per student using their <strong>Batch Start Month</strong> (or admission date if not set).
         </p>
 
         {/* Unpaid Students */}
